@@ -1,17 +1,8 @@
-const sourceCode = 'citeste a, b, numar\na = (4+5) % (b - 3) \n b = b + 1\nscrie a,   numar'
+const sourceCode = 'citeste a, b, numars \n  a = (4+5) % (b - 3)  \n  b = b + 1  \n  scrie a,   numar'
 
 const KEYWORDS = [
     'citeste',
     'scrie',
-    'si',
-    'sau',
-    'nu',
-    'daca',
-    'altfel',
-    'cat_timp',
-    'pentru',
-    'executa',
-    'atunci',
     'EOF',
 ]
 
@@ -112,7 +103,7 @@ function parser(tokens) {
             case 'KEYWORD':
                 if ( currToken.value === 'citeste' ) {
                     let vars = []
-                    while (tokens.length > 0) {
+                    while ( tokens.length > 0 ) {
                         if (tokens[0].type === 'IDENTIFIER') {
                             vars.push(tokens.shift().value)
                             if (tokens[0].type === 'COMMA') {
@@ -214,4 +205,74 @@ function shuntingYard(tokens) {
     return output
 }
 
-console.dir(parser(lexer(sourceCode)), { depth: null })
+//console.dir(parser(lexer(sourceCode)), { depth: null })
+
+// Rularea efectiva a programului
+const readline = require('readline')
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+})
+
+function prompt(question) {
+    return new Promise(resolve => {
+        rl.question(question, answer => {
+            resolve(answer)
+        })
+    })
+}
+
+async function evaluateNode(node, variables) {
+    if (node.type === 'PROGRAM') {
+        for (let childNode of node.children) {
+            await evaluateNode(childNode, variables) 
+        }
+    } 
+    else if (node.type === 'INPUT') {
+        for (let varName of node.value) {
+            let value = await prompt(`Introdu valoarea pentru variabila ${varName}: `)
+            variables[varName] = parseInt(value)
+        }
+    } 
+    else if (node.type === 'OUTPUT') {
+        for (let varName of node.value) {
+            console.log(`${varName} = ${variables[varName]}`)
+        }
+    } 
+    else if (node.type === 'ASSIGNMENT') {
+        variables[node.value] = evaluatePostfixExpression(node.children, variables)
+    }
+}
+
+function evaluatePostfixExpression(tokens, variables) {
+    let stack = []
+    let exprTokens = [...tokens]
+
+    while (exprTokens.length > 0) {
+        let token = exprTokens.shift()
+        if (token.type === 'NUMBER') {
+            stack.push(parseInt(token.value))
+        } 
+        else if (token.type === 'IDENTIFIER') {
+            stack.push(variables[token.value])
+        } 
+        else if (token.type === 'OPERATOR') {
+            let op2 = stack.pop()
+            let op1 = stack.pop()
+            if (token.value === '+') stack.push(op1 + op2)
+            else if (token.value === '-') stack.push(op1 - op2)
+            else if (token.value === '*') stack.push(op1 * op2)
+            else if (token.value === '/') stack.push(op1 / op2)
+            else if (token.value === '%') stack.push(op1 % op2)
+        }
+    }
+    return stack.pop()
+}
+
+async function main() {
+    let variables = {}
+    await evaluateNode(parser(lexer(sourceCode)), variables)
+    rl.close()
+}
+
+main()
