@@ -1,8 +1,8 @@
-const OutputConsole = () => {
+const OutputConsole = ({ output }) => {
   return (
     <textarea
       className="h-[30vh] w-full text-white font-mono bg-black resize-none border-4 border-gray-800 rounded-lg p-4"
-      placeholder="Aici se va vedea ce scrie programul:"
+      placeholder={"Aici se va vedea ce scrie programul:\n" + output} 
       readOnly
     ></textarea>
   );
