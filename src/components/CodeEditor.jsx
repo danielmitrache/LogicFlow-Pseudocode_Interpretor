@@ -24,6 +24,7 @@ const CodeEditor = ({ onCodeChange }) => {
           [/\d+/, "number"],
           [/".*?"/, "string"],
           [/[+\-*/=<>!]+/, "operator"],
+          [/\/\/.*/, "comment"],
         ],
       },
     });
@@ -59,6 +60,7 @@ const CodeEditor = ({ onCodeChange }) => {
         { token: "number", foreground: "b5cea8" },
         { token: "string", foreground: "ce9178" },
         { token: "operator", foreground: "d4d4d4" },
+        { token: "comment", foreground: "608b4e" },
       ],
       colors: {},
     });
