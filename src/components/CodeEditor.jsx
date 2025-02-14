@@ -11,19 +11,22 @@ const CodeEditor = ({ onCodeChange }) => {
     monaco.languages.register({ id: "pseudocode" });
 
     const keywords = ["citeste", "scrie", "daca", "atunci", "altfel"];
+    const operators = ["sau", "si", "egal", "diferit"];
+
 
     let regkw = new RegExp(keywords.join("|"));
-
+    let regop = new RegExp(operators.join("|"));
     // Setează regulile de tokenizare (highlighting) pentru pseudocode
     monaco.languages.setMonarchTokensProvider("pseudocode", {
       keywords,
       tokenizer: {
         root: [
           [regkw, "keyword"],
+          [regop, "operator"],
           [/[a-zA-Z_]\w*/, "identifier"],
           [/\d+/, "number"],
           [/".*?"/, "string"],
-          [/[+\-*/=<>!]+/, "operator"],
+          [/[+\/\-*=<>!]+/, "operator"],
           [/\/\/.*/, "comment"],
         ],
       },
@@ -59,7 +62,7 @@ const CodeEditor = ({ onCodeChange }) => {
         { token: "identifier", foreground: "9cdcfe" },
         { token: "number", foreground: "b5cea8" },
         { token: "string", foreground: "ce9178" },
-        { token: "operator", foreground: "d4d4d4" },
+        { token: "operator", foreground: "c23c25" },
         { token: "comment", foreground: "608b4e" },
       ],
       colors: {},
