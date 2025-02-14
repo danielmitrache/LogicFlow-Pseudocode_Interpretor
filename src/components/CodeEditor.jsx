@@ -13,7 +13,6 @@ const CodeEditor = ({ onCodeChange }) => {
     const keywords = ["citeste", "scrie", "daca", "atunci", "altfel"];
     const operators = ["sau", "si", "egal", "diferit"];
 
-
     let regkw = new RegExp(keywords.join("|"));
     let regop = new RegExp(operators.join("|"));
     // Setează regulile de tokenizare (highlighting) pentru pseudocode
@@ -43,9 +42,10 @@ const CodeEditor = ({ onCodeChange }) => {
     });
 
     // Configurare completare automată
+    const autoComplete = ["citeste", "scrie", "daca", "atunci", "altfel", "sau", "si", "egal", "diferit"];
     monaco.languages.registerCompletionItemProvider("pseudocode", {
       provideCompletionItems: () => ({
-        suggestions: keywords.map((kw) => ({
+        suggestions: autoComplete.map((kw) => ({
           label: kw,
           kind: monaco.languages.CompletionItemKind.Keyword,
           insertText: kw,
