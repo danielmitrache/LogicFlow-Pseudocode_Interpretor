@@ -11,7 +11,7 @@ const CodeEditor = ({ onCodeChange }) => {
     monaco.languages.register({ id: "pseudocode" });
 
     const keywords = ["citeste", "scrie", "daca", "atunci", "altfel"];
-    const operators = ["sau", "si", "egal", "diferit"];
+    const operators = ["sau", "si", "egal", "diferit", "not"];
 
     let regkw = new RegExp(keywords.join("|"));
     let regop = new RegExp(operators.join("|"));
@@ -42,7 +42,7 @@ const CodeEditor = ({ onCodeChange }) => {
     });
 
     // Configurare completare automată
-    const autoComplete = ["citeste", "scrie", "daca", "atunci", "altfel", "sau", "si", "egal", "diferit"];
+    const autoComplete = ["citeste", "scrie", "daca", "atunci", "altfel", "sau", "si", "egal", "diferit", "not"];
     monaco.languages.registerCompletionItemProvider("pseudocode", {
       provideCompletionItems: () => ({
         suggestions: autoComplete.map((kw) => ({
@@ -62,7 +62,7 @@ const CodeEditor = ({ onCodeChange }) => {
         { token: "identifier", foreground: "9cdcfe" },
         { token: "number", foreground: "b5cea8" },
         { token: "string", foreground: "ce9178" },
-        { token: "operator", foreground: "c23c25" },
+        { token: "operator", foreground: "e8e4c9" },
         { token: "comment", foreground: "608b4e" },
       ],
       colors: {},
