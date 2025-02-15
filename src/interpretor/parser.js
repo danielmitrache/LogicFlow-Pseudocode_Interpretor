@@ -202,7 +202,7 @@ export function parser(tokens, rec_level = 0) {
                     let IFNode = new ifNode(postFixCondition, thenNode, elseNode)
                     instructions.push(new Node('IF', IFNode))
                 }
-                else if ( currToken.value === 'cat_timp' ) {
+                else if ( currToken.value === 'cat timp' ) {
                     // Cazul in care avem un while
                     let found_condition = false, found_then = false
                     let condition = []

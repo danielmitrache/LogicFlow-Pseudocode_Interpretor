@@ -34,14 +34,14 @@ export function evaluateNode(node, variables, outputToConsole) {
             evaluateNode(IFNode.elseBlock, variables, outputToConsole)
         }
     }
-    // else if (node.type === 'WHILE') {
-    //     let WHILENode = node.value
-    //     let condition = evaluatePostfixExpression(WHILENode.condition, variables)
-    //     while (condition) {
-    //         evaluateNode(WHILENode.block, variables, outputToConsole)
-    //         condition = evaluatePostfixExpression(WHILENode.condition, variables)
-    //     }
-    // }
+    else if (node.type === 'WHILE') {
+        let WHILENode = node.value
+        let condition = evaluatePostfixExpression(WHILENode.condition, variables)
+        while (condition) {
+            evaluateNode(WHILENode.block, variables, outputToConsole)
+            condition = evaluatePostfixExpression(WHILENode.condition, variables)
+        }
+    }
 }
 
 function evaluatePostfixExpression(tokens, variables) {
