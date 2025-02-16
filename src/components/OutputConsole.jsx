@@ -1,5 +1,5 @@
 const OutputConsole = ({ output, textColor }) => {
-  const consoleClass = textColor === "white" ? "h-[30vh] w-full font-mono bg-black resize-none border-4 border-gray-800 rounded-lg p-4 text-white" : "h-[30vh] w-full font-mono bg-black resize-none border-4 border-gray-800 rounded-lg p-4 text-red-600";
+  const consoleClass = textColor === "white" ? "h-[30vh] w-full font-mono bg-black resize-none border-4 border-[#1e1e1e] rounded-lg p-4 text-white" : "h-[30vh] w-full font-mono bg-black resize-none border-4 border-[#1e1e1e] rounded-lg p-4 text-red-600";
   return (
     <textarea
       className={consoleClass}
