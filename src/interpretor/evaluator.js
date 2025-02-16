@@ -89,9 +89,12 @@ function evaluatePostfixExpression(tokens, variables) {
         let token = exprTokens.shift()
         
         if (token.type === 'NUMBER') {
-            stack.push(parseInt(token.value))
+            stack.push(parseFloat(token.value))
         } 
         else if (token.type === 'IDENTIFIER') {
+            if (variables[token.value] === undefined) {
+                throw new Error(`Variabila "${token.value}" nu a fost definita!`)
+            }
             stack.push(variables[token.value] ?? 0)
         } 
         else if (token.type === 'OPERATOR') {

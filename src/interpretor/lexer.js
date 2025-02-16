@@ -114,7 +114,7 @@ export function lexer(sourceCode) {
             }
             else if ( isDigit(ch) || ch === '-') {
                 let num = ch
-                while ( isDigit(src[0]) ) {
+                while ( isDigit(src[0]) || src[0] === '.' ) {
                     num += src.shift()
                 }
                 if ( num === '-' ) {
