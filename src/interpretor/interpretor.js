@@ -4,7 +4,7 @@ import { lexer } from './lexer.js'
 export function interpretor(sourceCode, outputToConsole) {
     try {
         let tokens = lexer(sourceCode)
-        let ast = parser(tokens)
+        let ast = parser(tokens, sourceCode)
         let variables = {}
         evaluateNode(ast, variables, outputToConsole)
         return variables
