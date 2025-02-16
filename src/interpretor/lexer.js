@@ -51,6 +51,11 @@ export function lexer(sourceCode) {
             tokens.push(new Token('ASSIGN', ch))
         }
         else if (ch === '<' || ch === '>') {
+            if ( ch === '<' && src[0] === '-') {
+                tokens.push(new Token('ASSIGN', '='))
+                src.shift()
+                continue
+            }
             if (src[0] === '=') {
                 tokens.push(new Token('OPERATOR', ch + src.shift()));
             } else {

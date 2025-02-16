@@ -13,7 +13,7 @@ export function evaluateNode(node, variables, outputToConsole) {
         variables[varName] = parseFloat(value)
     } 
     else if (node.type === 'OUTPUT') {
-        if (variables[node.value] === null) {
+        if (variables[node.value] === undefined) {
             throw new Error(`Variabila "${node.value}" nu a fost definita!`)
         }
         outputToConsole(variables[node.value].toString())
@@ -123,6 +123,8 @@ function evaluatePostfixExpression(tokens, variables) {
             }
         }
     }
-
+    if (stack.length > 1) {
+        throw new Error('Expresie invalida!')
+    }
     return stack.pop()
 }
