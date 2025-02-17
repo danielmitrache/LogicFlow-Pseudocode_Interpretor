@@ -120,8 +120,8 @@ const CodeEditor = ({ onCodeChange, fontSize, editorTheme, wordWrap }) => {
       options={{
         automaticLayout: true, // Ensure the editor resizes automatically
         padding: { top: 20 }, // Add padding to the top
-        fontSize: {fontSize}, // Set the font size to 16px
         wordWrap: {wordWrap}, // Enable word wrapping
+        fontSize: parseInt(fontSize, 10),
       }}
     />
   );
