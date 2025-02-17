@@ -1,7 +1,7 @@
 import { Editor } from "@monaco-editor/react";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
-const CodeEditor = ({ onCodeChange }) => {
+const CodeEditor = ({ onCodeChange, fontSize, editorTheme, wordWrap }) => {
 
   function handleEditorMount(editor, monaco) {
     editorRef.current = editor;
@@ -59,7 +59,7 @@ const CodeEditor = ({ onCodeChange }) => {
     });
 
     // Definirea temei personalizate
-    monaco.editor.defineTheme("pseudocode-theme", {
+    monaco.editor.defineTheme("pseudocode-dark-theme", {
       base: "vs-dark",
       inherit: true,
       rules: [
@@ -73,8 +73,39 @@ const CodeEditor = ({ onCodeChange }) => {
       colors: {},
     });
 
-    monaco.editor.setTheme("pseudocode-theme");
+    monaco.editor.defineTheme("pseudocode-light-theme", {
+      base: "vs", // Use the built-in light theme as the base
+      inherit: true,
+      rules: [
+        { token: "keyword", foreground: "0000FF" },
+        { token: "identifier", foreground: "000000" },
+        { token: "number", foreground: "098658" },
+        { token: "string", foreground: "A31515" },
+        { token: "operator", foreground: "000000" },
+        { token: "comment", foreground: "008000" },
+      ],
+      colors: {
+        "editor.background": "#FFFFFF", // Set the editor background to white
+      },
+    });
+
+    if (editorTheme === "light") {
+      monaco.editor.setTheme("pseudocode-light-theme");
+    } else if (editorTheme === "dark") {
+      monaco.editor.setTheme("pseudocode-dark-theme");
+    }
   }
+
+  useEffect(() => {
+    if (editorRef.current) {
+      const editor = editorRef.current;
+      editor.updateOptions({
+        fontSize: parseInt(fontSize, 10),
+        wordWrap: wordWrap ? "on" : "off",
+      });
+      monaco.editor.setTheme(editorTheme === "light" ? "pseudocode-light-theme" : "pseudocode-dark-theme");
+    }
+  }, [fontSize, editorTheme, wordWrap]);
 
   const editorRef = useRef();
 
@@ -86,6 +117,12 @@ const CodeEditor = ({ onCodeChange }) => {
       defaultValue={localStorage.getItem("code") || "// Scrie pseudocod aici"}
       onMount={handleEditorMount}
       onChange={(value) => {onCodeChange(value); localStorage.setItem("code", value);}}
+      options={{
+        automaticLayout: true, // Ensure the editor resizes automatically
+        padding: { top: 20 }, // Add padding to the top
+        fontSize: {fontSize}, // Set the font size to 16px
+        wordWrap: {wordWrap}, // Enable word wrapping
+      }}
     />
   );
 };
