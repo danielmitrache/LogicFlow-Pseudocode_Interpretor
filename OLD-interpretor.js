@@ -1,3 +1,5 @@
+// This is the old ( first version ) of the interpretor
+
 const sourceCode = 'citeste a, b, numars \n  a = (4+5) % (b - 3)  \n  b = b + 1  \n  scrie a,   numar'
 
 const KEYWORDS = [
