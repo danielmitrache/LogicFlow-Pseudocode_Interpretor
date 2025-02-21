@@ -174,8 +174,8 @@ export function lexer(sourceCode) {
         }
     }
     tokens.push(new Token('EOF', null))
-    for ( let tk of tokens ) {
-         console.log(tk)
-    }
+    // for ( let tk of tokens ) {
+    //      console.log(tk)
+    // }
     return tokens
 }
