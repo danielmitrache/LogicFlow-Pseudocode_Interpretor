@@ -1,6 +1,6 @@
 # 📜 Interpretor de Pseudocod
 
-# [🔗 Accesează interpretorul live](https://pseudocode-interpretor.vercel.app/)
+# [🔗 Accesează interpretorul live](https://interpretor-pseudocod.vercel.app/)
 
 ## 📌 Descriere
 Interpretorul de pseudocod este o aplicație web destinată elevilor care doresc să învețe informatică și să înțeleagă mai bine structura algoritmilor. Acesta oferă o sintaxă prietenoasă, inspirată din pseudocodul utilizat în manuale și la examenul de bacalaureat.
