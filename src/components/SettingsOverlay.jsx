@@ -43,6 +43,12 @@ const SettingsOverlay = ({ onClose, updateSettings }) => {
             defaultValue={localStorage.getItem("maxIterations") || "100000"}
           />
 
+          <label className="inline-block text-lg font-mono font-bold ">Interpretare asistata de AI:</label>
+          <div className="flex items-center">
+            <input type="checkbox" className="rounded-lg mr-2 size-4" defaultChecked={localStorage.getItem('AIassisted') === 'true'}/>
+            <span className="font-mono">Da</span>
+          </div>
+
           <button
             type="submit"
             className="py-2 px-4 font-mono font-black bg-green-500 text-white rounded hover:bg-green-600 transition-all duration-500 hover:cursor-pointer"
@@ -51,8 +57,9 @@ const SettingsOverlay = ({ onClose, updateSettings }) => {
               updateSettings(
                 document.querySelector("select").value,
                 document.querySelectorAll("select")[1].value,
-                document.querySelector("input[type='checkbox']").checked,
-                document.querySelector("input[type='number']").value
+                document.querySelectorAll("input[type='checkbox']")[0].checked,
+                document.querySelector("input[type='number']").value,
+                document.querySelectorAll("input[type='checkbox']")[1].checked
               );
               onClose();
             }}

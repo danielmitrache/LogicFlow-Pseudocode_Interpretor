@@ -16,11 +16,13 @@ const App = () => {
   const [fontSize, setFontSize] = useState(localStorage.getItem("fontSize") || "16");
   const [wordWrap, setWordWrap] = useState(localStorage.getItem("wordWrap") === "true");
   const [maxIterations, setMaxIterations] = useState(localStorage.getItem("maxIterations") || 100000);
-  const updateSettings = (theme, fontSize, wordWrap, maxIterations) => {
+  const [AIassisted, setAIassisted] = useState(localStorage.getItem("AIassisted") === "true");
+  const updateSettings = (theme, fontSize, wordWrap, maxIterations, AIassisted) => {
     setTheme(theme);
     setFontSize(fontSize);
     setWordWrap(wordWrap);
     setMaxIterations(maxIterations);
+    setAIassisted(AIassisted);
   }
 
   useEffect(() => {
@@ -28,7 +30,8 @@ const App = () => {
     localStorage.setItem("fontSize", fontSize);
     localStorage.setItem("wordWrap", wordWrap);
     localStorage.setItem("maxIterations", maxIterations);
-  }, [theme, fontSize, wordWrap, maxIterations]);
+    localStorage.setItem("AIassisted", AIassisted);
+  }, [theme, fontSize, wordWrap, maxIterations, AIassisted]);
 
   const handleOpenSettings = () => {setSettingsOpen(true)};
   const handleCloseSettings = () => {setSettingsOpen(false)};
@@ -56,7 +59,7 @@ const App = () => {
     try {
       setOutput("");
       setTextColor("white");
-      const outputVariables = interpretor(code, outputToConsole, maxIterations);
+      const outputVariables = interpretor(code, outputToConsole, maxIterations, AIassisted);
     }
     catch (err) {
       setTextColor("red");
