@@ -13,15 +13,6 @@ export async function interpretor(sourceCode, outputToConsole, maxIterations, is
         return 0;
     } catch (err) {
         if (isAIassisted) {
-            if (Notification.permission === "default") {
-                Notification.requestPermission();
-            }
-            if (Notification.permission === "granted") {
-                new Notification("Uh oh!", {
-                    body: "Ceva nu a mers bine. AI-ul lucreaza la a corecta codul.",
-                    timeout: 50
-                });
-            }
             const refactoredCode = await refactorAllCode(sourceCode);
             sourceCode = refactoredCode;
             try {
@@ -29,7 +20,7 @@ export async function interpretor(sourceCode, outputToConsole, maxIterations, is
                 let ast = parser(tokens);
                 let variables = {};
                 evaluateNode(ast, variables, outputToConsole, maxIterations);
-                return 1;
+                return sourceCode;
             } catch (err) {
                 throw new Error(`${err.message} \n Refactored code: ${refactoredCode}`);
             }

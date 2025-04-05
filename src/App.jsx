@@ -58,14 +58,26 @@ const App = () => {
   }
 
   const runCode = async () => {
+    let refactoredCode = 0;
     try {
       setOutput("");
       setTextColor("white");
-      let returnCode = await interpretor(code, outputToConsole, maxIterations, AIassisted);
-
+      refactoredCode = await interpretor(code, outputToConsole, maxIterations, AIassisted);
     } catch (err) {
       setTextColor("red");
       setOutput("Eroare la interpretare: " + err.message);
+    } finally {
+      if (refactoredCode !== 0) {
+        toast.info("Codul tau pare sa aive erori, dar au fost corectate de AI!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      }
     }
   };
 
