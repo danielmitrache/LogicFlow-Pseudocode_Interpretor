@@ -4,7 +4,7 @@ import { lexer } from '../interpretor/lexer';
 import { parser } from '../interpretor/parser';
 import { generateCPP } from '../transpiler/cppTranspiler';
 
-const CppOutputEditor = ({ pseudocode }) => {
+const CppOutputEditor = ({ pseudocode, fontSize, editorTheme, wordWrap }) => {
   const [cppCode, setCppCode] = useState('// Codul C++ va apărea aici');
 
   useEffect(() => {
@@ -28,15 +28,16 @@ const CppOutputEditor = ({ pseudocode }) => {
     <div className="h-full">
       <Editor
         className="h-[50vh]"
-        theme="vs-dark"
+        theme={editorTheme === "light" ? "vs" : "vs-dark"}
         defaultLanguage="cpp"
         value={cppCode}
         options={{
           readOnly: true,
           automaticLayout: true,
           padding: { top: 20 },
-          wordWrap: 'on',
+          wordWrap: wordWrap ? 'on' : 'off',
           minimap: { enabled: false },
+          fontSize: parseInt(fontSize, 10),
         }}
       />
     </div>

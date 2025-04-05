@@ -95,7 +95,12 @@ function App() {
 
             <div className="w-1/2">
               <h2 className="text-xl font-bold text-white mb-2">Cod C++ generat</h2>
-              <CppOutputEditor pseudocode={code} />
+              <CppOutputEditor 
+                pseudocode={code} 
+                fontSize={fontSize}
+                editorTheme={editorTheme}
+                wordWrap={wordWrap}
+              />
             </div>
           </div>
           

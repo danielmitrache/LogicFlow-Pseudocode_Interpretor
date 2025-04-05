@@ -25,7 +25,7 @@ export function generateCPP(ast) {
         if (variables.size > 0) {
             code += '    // Declararea variabilelor\n';
             for (const variable of variables) {
-                code += `    double ${variable} = 0;\n`;
+                code += `    int ${variable};\n`;
             }
             code += '\n';
         }
@@ -140,7 +140,7 @@ function transpileOutputStr(node, indent) {
 function transpileOutputExp(node, indent) {
     if (node.children && node.children.length > 0) {
         const expression = transpileExpression(node.children);
-        return `${indent}cout << (${expression}) << endl;\n`;
+        return `${indent}cout << ${expression} << endl;\n`;
     } else if (node.value) {
         return `${indent}cout << ${node.value} << endl;\n`;
     }
@@ -276,18 +276,20 @@ function transpileExpression(tokens) {
             if (operator === '!') {
                 // Operatorul unary not
                 const operand = stack.pop();
-                stack.push(`!(${operand})`);
+                stack.push(`!${operand}`);
             } 
             else if (operator === 'int') {
                 // Funcția de conversie la int
                 const operand = stack.pop();
-                stack.push(`static_cast<int>(${operand})`);
+                stack.push(`${operand}`);
             } 
             else {
                 // Operatori binari
                 const right = stack.pop();
                 const left = stack.pop();
-                stack.push(`(${left} ${operator} ${right})`);
+                
+                // Evităm parantezele suplimentare
+                stack.push(`${left} ${operator} ${right}`);
             }
         }
     }
