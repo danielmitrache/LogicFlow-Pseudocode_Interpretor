@@ -1,4 +1,14 @@
-const SettingsOverlay = ({ onClose, updateSettings }) => {
+const SettingsOverlay = ({ 
+  onClose, 
+  fontSize, 
+  setFontSize, 
+  editorTheme, 
+  setEditorTheme, 
+  wordWrap, 
+  setWordWrap, 
+  maxIterations, 
+  setMaxIterations 
+}) => {
   return (
     <div className="fixed inset-0 flex justify-center items-center z-20 bg-gray-900 backdrop-blur-3xl opacity-90">
       <div className="bg-gray-100 p-8 rounded-lg shadow-lg w-[90%] md:w-1/2 z-30">
@@ -10,7 +20,8 @@ const SettingsOverlay = ({ onClose, updateSettings }) => {
           <label className="text-lg font-bold inline-block font-mono">Temă editor text:</label>
           <select
             className="p-2 rounded-lg inline-block border border-gray-300 bg-gray-200 font-mono"
-            defaultValue={localStorage.getItem("theme") || "dark"}
+            defaultValue={editorTheme}
+            onChange={(e) => setEditorTheme(e.target.value)}
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
@@ -19,7 +30,8 @@ const SettingsOverlay = ({ onClose, updateSettings }) => {
           <label className="inline-block text-lg font-mono font-bold ">Dimensiune font:</label>
           <select
             className="p-2 rounded-lg inline-block border border-gray-300 bg-gray-200 font-mono"
-            defaultValue={localStorage.getItem("fontSize") || "16"}
+            defaultValue={fontSize}
+            onChange={(e) => setFontSize(e.target.value)}
           >
             <option value="12">12px</option>
             <option value="14">14px</option>
@@ -30,7 +42,12 @@ const SettingsOverlay = ({ onClose, updateSettings }) => {
 
           <label className="inline-block text-lg font-mono font-bold ">Word wrapping:</label>
           <div className="flex items-center">
-            <input type="checkbox" className="rounded-lg mr-2 size-4" defaultChecked={localStorage.getItem('wordWrap') === 'true'}/>
+            <input 
+              type="checkbox" 
+              className="rounded-lg mr-2 size-4" 
+              checked={wordWrap}
+              onChange={(e) => setWordWrap(e.target.checked)}
+            />
             <span className="font-mono">Da</span>
           </div>
 
@@ -40,22 +57,14 @@ const SettingsOverlay = ({ onClose, updateSettings }) => {
           <input
             type="number"
             className="p-2 rounded-lg border border-gray-300 bg-gray-200 font-mono"
-            defaultValue={localStorage.getItem("maxIterations") || "100000"}
+            value={maxIterations}
+            onChange={(e) => setMaxIterations(e.target.value)}
           />
 
           <button
-            type="submit"
+            type="button"
             className="py-2 px-4 font-mono font-black bg-green-500 text-white rounded hover:bg-green-600 transition-all duration-500 hover:cursor-pointer"
-            onClick={(e) => {
-              e.preventDefault();
-              updateSettings(
-                document.querySelector("select").value,
-                document.querySelectorAll("select")[1].value,
-                document.querySelector("input[type='checkbox']").checked,
-                document.querySelector("input[type='number']").value
-              );
-              onClose();
-            }}
+            onClick={onClose}
           >
             Salveaza
           </button>
