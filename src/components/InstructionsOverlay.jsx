@@ -7,10 +7,10 @@ const InstructionsOverlay = ({ onClose }) => {
       <div className="fixed inset-0 flex justify-center items-center z-20 bg-gray-900 backdrop-blur-3xl opacity-90">
         <div className="bg-gray-100 p-8 rounded-lg shadow-lg w-[90%] md:w-1/2 z-30 overflow-y-auto max-h-[90vh] relative">
           <button 
-            className="absolute top-2 right-2 text-gray-700 hover:text-red-700 font-bold text-xl"
+            className="absolute top-2 right-3 text-gray-700 hover:text-red-700 font-bold text-xl"
             onClick={onClose}
           >
-            ✕
+            X
           </button>
           
           <h2 className="text-2xl font-mono font-extrabold mb-4 underline">

@@ -9,10 +9,10 @@ export function generateCPP(ast) {
     let variables = new Set(); // Pentru declarațiile de variabile
 
     // Adăugăm header-ele necesare
-    code += '#include <iostream>\n';
-    code += '#include <string>\n';
-    code += '#include <cmath>\n';
-    code += '#include <vector>\n\n';
+    code += '#include <iostream>\n\n';
+    // code += '#include <string>\n';
+    // code += '#include <cmath>\n';
+    // code += '#include <vector>\n\n';
     code += 'using namespace std;\n\n';
     code += 'int main() {\n';
     
@@ -23,7 +23,7 @@ export function generateCPP(ast) {
         
         // Declarăm variabilele la început
         if (variables.size > 0) {
-            code += '    // Declararea variabilelor\n';
+            
             for (const variable of variables) {
                 code += `    int ${variable};\n`;
             }
@@ -142,7 +142,20 @@ function transpileOutputExp(node, indent) {
         const expression = transpileExpression(node.children);
         return `${indent}cout << ${expression} << endl;\n`;
     } else if (node.value) {
-        return `${indent}cout << ${node.value} << endl;\n`;
+        // Handle the case when node.value is an array of tokens
+        if (Array.isArray(node.value)) {
+            if (node.value.length === 1 && node.value[0].type === 'NUMBER') {
+                // Single number token
+                return `${indent}cout << ${node.value[0].value} << endl;\n`;
+            } else {
+                // Process expression tokens
+                const expression = transpileExpression(node.value);
+                return `${indent}cout << ${expression} << endl;\n`;
+            }
+        } else {
+            // Direct value (string or number)
+            return `${indent}cout << ${node.value} << endl;\n`;
+        }
     }
     return `${indent}cout << endl;\n`;
 }
