@@ -5,6 +5,8 @@ import { useState, useEffect, use } from "react";
 import { interpretor } from "./interpretor/interpretor";
 import SettingsOverlay from "./components/SettingsOverlay";
 import InstructionsOverlay from "./components/InstructionsOverlay";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
@@ -55,13 +57,13 @@ const App = () => {
     }
   }
 
-  const runCode = () => {
+  const runCode = async () => {
     try {
       setOutput("");
       setTextColor("white");
-      const outputVariables = interpretor(code, outputToConsole, maxIterations, AIassisted);
-    }
-    catch (err) {
+      let returnCode = await interpretor(code, outputToConsole, maxIterations, AIassisted);
+
+    } catch (err) {
       setTextColor("red");
       setOutput("Eroare la interpretare: " + err.message);
     }
@@ -76,6 +78,18 @@ const App = () => {
       </div>
       {settingsOpen && <SettingsOverlay onClose={handleCloseSettings} updateSettings={updateSettings} />}
       {infoOpen && <InstructionsOverlay onClose={handleCloseInfo} />}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 };

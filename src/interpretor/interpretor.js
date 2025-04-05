@@ -1,27 +1,46 @@
-const OPENAI_API_KEY = 'sk-...'
+const OPENAI_API_KEY = ''
 const URL = 'https://api.openai.com/v1/chat/completions'
 
 import { parser } from './parser.js'
 import { evaluateNode } from './evaluator.js'
 import { lexer } from './lexer.js'
 export async function interpretor(sourceCode, outputToConsole, maxIterations, isAIassisted) {
-    if (isAIassisted) {
-        // Await the AI response to ensure sourceCode is updated correctly
-        sourceCode = await getAIResponse(sourceCode);
-        console.log("Codul refacut de AI: ", sourceCode);
-    }
     try {
         let tokens = lexer(sourceCode);
         let ast = parser(tokens);
         let variables = {};
         evaluateNode(ast, variables, outputToConsole, maxIterations);
-        return variables;
+        return 0;
     } catch (err) {
-        throw err;
+        if (isAIassisted) {
+            if (Notification.permission === "default") {
+                Notification.requestPermission();
+            }
+            if (Notification.permission === "granted") {
+                new Notification("Uh oh!", {
+                    body: "Ceva nu a mers bine. AI-ul lucreaza la a corecta codul.",
+                    timeout: 50
+                });
+            }
+            const refactoredCode = await refactorAllCode(sourceCode);
+            sourceCode = refactoredCode;
+            try {
+                let tokens = lexer(sourceCode);
+                let ast = parser(tokens);
+                let variables = {};
+                evaluateNode(ast, variables, outputToConsole, maxIterations);
+                return 1;
+            } catch (err) {
+                throw new Error(`${err.message} \n Refactored code: ${refactoredCode}`);
+            }
+        }
+        else {
+            throw err
+        }
     }
 }
 
-const getAIResponse = async (code) => {
+const refactorAllCode = async (code) => {
     const prompt = `Esti un asistent AI care are scopul de a asista elevii de liceu in interpretarea pseudocodului.
     Trebuie să reformatezi codul doar în cazul în care există erori de sintaxă. Nu modifica logica, nu înlocui expresii cu alternative „mai bune” sau „mai clare”. Dacă o expresie este validă și respectă sintaxa, păstreaz-o exact așa cum este.
     si interpretabil de catre un 'interpretor de pseudocod' scris in JavaScript.
@@ -145,7 +164,7 @@ const getAIResponse = async (code) => {
           "Authorization": `Bearer ${OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "gpt-3.5-turbo",
+          model: "gpt-4-turbo",
           messages: [{ role: "user", content: prompt }],
           temperature: 0.1,
         }),
