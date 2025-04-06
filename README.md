@@ -72,6 +72,7 @@ Dacă îți place proiectul, nu uita să dai **⭐ star pe GitHub**!
 📧 **Contact:**
 Dacă ai întrebări sau sugestii, mă poți contacta prin **GitHub Issues** sau pe **mitracheadaniel@gmail.com**.
 
+
 ---
 
 🔗 [Repo GitHub](https://github.com/danielmitrache/pseudocode-interpretor/)
